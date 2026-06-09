@@ -1,0 +1,328 @@
+/* —— Reset & base —— */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #fbfbfd;
+  --surface: #ffffff;
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-muted: #86868b;
+  --border: rgba(0, 0, 0, 0.06);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --radius: 12px;
+  --radius-pill: 980px;
+  --accent: #0071e3;
+  --accent-hover: #0077ed;
+  --done: #34c759;
+  --danger: #ff3b30;
+  --transition: 0.22s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 17px;
+  line-height: 1.47059;
+  letter-spacing: -0.022em;
+  color: var(--text-primary);
+  background: var(--bg);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 80px 24px 120px;
+}
+
+/* —— Layout —— */
+.app {
+  background-color: var(--surface); 
+  max-width: 480px;                  
+  width: 100%;                      
+  padding: 40px;                   
+  border-radius: var(--radius);     
+  box-shadow: var(--shadow-md);    
+  box-sizing: border-box;           
+}
+
+
+.app__header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.app__title {
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.app__subtitle {
+  margin-top: 12px;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* —— Form —— */
+.todo-form {
+  display: flex;
+  align-items: center;
+  background: var(--surface);       /* 🎨 容器变成纯白背景 */
+  border: 1px solid var(--border);  /* 🔍 统一的浅色边框 */
+  border-radius: var(--radius);     /* 🟢 12px 丝滑圆角 */
+  box-shadow: var(--shadow-sm);     /* 🌫️ 淡淡的微弱阴影 */
+  padding-right: 6px;               /* 📐 右边给按钮留出一点点呼吸间距 */
+  margin-bottom: 32px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+
+.todo-form__input {
+  flex: 1;
+  height: 48px;
+  padding: 0 18px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--text-primary);
+  background: transparent; /* 🧼 变成透明 */
+  border: none;             /* 🧼 去掉边框 */
+  outline: none;
+}
+
+.todo-form__input::placeholder {
+  color: var(--text-muted);
+}
+
+.todo-form__input:focus {
+  border-color: rgba(0, 113, 227, 0.35);
+  box-shadow: var(--shadow-sm), 0 0 0 4px rgba(0, 113, 227, 0.12);
+}
+
+.todo-form__btn {
+  flex-shrink: 0;
+  height: 48px;
+  padding: 0 22px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--accent);       /* 🎨 文字改回蓝色 */
+  background: transparent;    /* 🧼 背景变透明 */
+  border: none;
+  cursor: pointer;
+  transition: color var(--transition), transform var(--transition);
+}
+
+/* 🌟 悬停时让文字颜色变深，而不是背景变深 */
+.todo-form__btn:hover {
+  color: var(--accent-hover);
+}
+
+.todo-form__btn:active {
+  transform: scale(0.95);
+}
+
+
+
+/* —— List —— */
+.todo-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.todo-list:empty,
+.todo-list:not(:has(.todo-item)) {
+  display: none;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px 14px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: opacity var(--transition), transform var(--transition),
+    box-shadow var(--transition);
+  animation: item-in 0.35s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+.todo-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+@keyframes item-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.todo-item--done {
+  opacity: 0.72;
+}
+
+.todo-item--done .todo-item__text {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+/* —— Checkbox —— */
+.todo-item__check {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid #d2d2d7;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: border-color var(--transition), background var(--transition),
+    transform var(--transition);
+}
+
+.todo-item__check:hover {
+  border-color: var(--done);
+}
+
+.todo-item__check:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.todo-item--done .todo-item__check {
+  background: var(--done);
+  border-color: var(--done);
+}
+
+.todo-item__check-icon {
+  width: 11px;
+  height: 11px;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.todo-item--done .todo-item__check-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* —— Text & delete —— */
+.todo-item__text {
+  flex: 1;
+  font-size: 16px;
+  color: var(--text-primary);
+  word-break: break-word;
+  transition: color var(--transition);
+}
+
+.todo-item__delete {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--transition), color var(--transition),
+    background var(--transition);
+}
+
+.todo-item:hover .todo-item__delete,
+.todo-item__delete:focus-visible {
+  opacity: 1;
+}
+
+.todo-item__delete:hover {
+  color: var(--danger);
+  background: rgba(255, 59, 48, 0.08);
+}
+
+/* —— Empty state —— */
+.app__empty {
+  text-align: center;
+  font-size: 15px;
+  color: var(--text-muted);
+  padding: 24px 0;
+}
+
+.app__empty::before {
+  content: "📝";             /* 🎨 插入一个极简图标 */
+  display: block;            /* 📦 让图标独占一行，显示在文字正上方 */
+  font-size: 32px;           /* 📐 放大图标尺寸 */
+  margin-bottom: 12px;       /* 💨 与下方的文字拉开一点间距 */
+  opacity: 0.5;              /* 🔍 让图标半透明，显得更高级、不刺眼 */
+}
+
+.app__empty--hidden {
+  display: none;
+}
+
+/* —— Responsive —— */
+@media (max-width: 480px) {
+  body {
+    padding-top: 48px;
+  }
+
+  .app__title {
+    font-size: 32px;
+  }
+
+  .app__header {
+    margin-bottom: 36px;
+  }
+
+  .todo-form {
+    flex-direction: column;
+  }
+
+  .todo-form__btn {
+    width: 100%;
+  }
+
+  .todo-item__delete {
+    opacity: 1;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000;                       /* 🖼️ 纯黑大背景 */
+    --surface: #1c1c1e;                  /* 📦 深灰卡片背景 */
+    --text-primary: #ffffff;             /* ⚪️ 主文字变纯白 */
+    --text-secondary: #aeaeb2;           /* 🔘 次要文字变浅灰 */
+    --text-muted: #636366;               /* 🏽 暗淡提示文字 */
+    --border: rgba(255, 255, 255, 0.08); /* 🔍 隐约的透明白边框 */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4); /* 🌫️ 降低暗处阴影亮度 */
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.6);
+  }
+}
